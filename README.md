@@ -4,14 +4,14 @@ Isaac J. Faber
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/rmetalog)](http://cran.r-project.org/package=rmetalog)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rmetalog)](https://cran.r-project.org/package=rmetalog)
 
 ### The R Metalog Distribution
 
 This repo is a working project for an R package that generates functions
 for the metalog distribution. The metalog distribution is a highly
 flexible probability distribution that can be used to model data without
-traditional parameters.
+traditional parameters. There is also a **python** implementation of this package which can be found here https://github.com/tjefferies/pymetalog.
 
 ### Metalog Distribution Background
 

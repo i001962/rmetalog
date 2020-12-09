@@ -3,7 +3,6 @@
 \docType{package}
 \name{rmetalog}
 \alias{rmetalog}
-\alias{rmetalog-package}
 \title{Create random samples from an metalog distribution object}
 \usage{
 rmetalog(m, n = 1, term = 3)
@@ -23,6 +22,7 @@ The \code{rmetalog} package implements the metalog distribution in \code{R}
 }
 \examples{
 # Load example data
+\dontrun{
 data("fishSize")
 
 # Create a bounded metalog object
@@ -34,4 +34,5 @@ myMetalog <- metalog(fishSize$FishSize,
 
 s <- rmetalog(myMetalog, n=1000, term = 9)
 hist(s)
+}
 }

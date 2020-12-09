@@ -1,4 +1,4 @@
-#' rmetalog: R implementation of the metalog distribution
+#' rmetalog: The metalog distribution
 #'
 #' The \code{rmetalog} package implements the metalog distribution in \code{R}
 #'
@@ -60,6 +60,7 @@ if(getRversion() >= "2.15.1")
 #'
 #' @examples
 #' # Load example data
+#' \dontrun{
 #' data("fishSize")
 #'
 #' # Create a bounded metalog object
@@ -67,6 +68,7 @@ if(getRversion() >= "2.15.1")
 #'                      bounds=c(0, 60),
 #'                      boundedness = 'b',
 #'                      term_limit = 13)
+#'}
 metalog <- function(x,
                     bounds = c(0,1),
                     boundedness = 'u',
@@ -275,49 +277,6 @@ metalog <- function(x,
     diff_error = .001,
     diff_step = 0.001
   )
-
-  # Build the Components for Baysiean Updating
-  if(save_data == TRUE & term_lower_bound <= 3){
-    Y <- as.matrix(myList$Y)
-    gamma <- (t(Y) %*% Y)
-    myList$params$bayes$gamma <- gamma
-    myList$params$bayes$mu <- myList$A
-    v <- c()
-    for(i in term_lower_bound:term_limit){
-      v <- c(v, (myList$params$number_of_data-i))
-    }
-    a <- v/2
-    myList$params$bayes$a <- a
-    myList$params$bayes$v <- v
-    #for now we will just use the 3 term standard metalog
-    v <- v[2]
-    a <- a[2]
-    # use the simple 3 term standard form
-    s <- c(.1,.5,.9)
-    Ys <- data.frame(y1 = rep(1, 3))
-
-    # Construct the Y Matrix initial values
-    Ys$y2 <- (log(s / (1 - s)))
-    Ys$y3 <- (s - 0.5) * Ys$y2
-    Ys <- as.matrix(Ys)
-    q_bar <- Ys %*% (as.matrix(myList$A$a3[1:3]))
-    myList$params$bayes$q_bar <- q_bar
-    rm(s)
-
-    # estimate b using q_90 assessment
-    #est <- (q_bar[3]-q_bar[2])/2 + q_bar[2]
-
-    #s2 <- ((est - q_bar[2]) / qt(.9, v))^2
-    s2 <- ((q_bar[3] - q_bar[2]) / qt(.9, v))^2
-    gamma <- gamma[1:3,1:3]
-
-    # build the covariance matrix for the students t
-    sig <- Ys %*% solve(gamma) %*% t(Ys)
-    #b <- 0.5 * myList$params$square_residual_error[length(myList$params$square_residual_error)]
-    b <- (a * s2) / gamma[2,2]
-    myList$params$bayes$sig <- (b/a) * sig
-    myList$params$bayes$b <- b
-  }
 
   class(myList) <- append("metalog", class(myList))
 
